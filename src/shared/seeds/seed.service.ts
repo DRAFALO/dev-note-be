@@ -1,47 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Command } from 'nestjs-command';
-import { usersToSeed } from '../data/user.data';
-import { lessonToSeed } from '../data/lesson.data';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '~/users/schema/users.schema';
-import { Lesson, LessonDocument } from '~/lessons/schema/lesson.schema';
+import { Article, ArticleDocument } from '~/articles/schema/article.schema';
+import { articles } from '~/shared/seeds/data';
 
 @Injectable()
 export class SeedService {
+  private readonly logger = new Logger(SeedService.name);
 
   constructor(
-    @InjectModel(User.name)
-    private usersModel: Model<UserDocument>,
-    @InjectModel(Lesson.name)
-    private lessonModel: Model<LessonDocument>,
+    @InjectModel(Article.name) private ArticleModel: Model<ArticleDocument>,
   ) { }
 
-  @Command({ command: 'data:import', describe: 'Seeding data' })
-  async create() {
-    await this.seedUsers();
-    await this.seedLessons();
-  }
+  // private seedDataAndLog(name: string, length: number, callback: () => Promise<void>) {
+  //   try { code nguu 
+  //     callback();
+  //     this.logger.log(`Seeding ${length} ${name} success`);
+  //   } catch (error) {
+  //     this.logger.error(`Error seeding ${name}: ${error.message}`, error.stack);
+  //     throw new Error(`Error seeding ${name}: ${error.message}`);
+  //   }
+  // }
 
-  private async seedUsers() {
+  private async seedArticles() {
     try {
-      await this.usersModel.deleteMany();
-      const users = usersToSeed.map(userData => new this.usersModel(userData));
-      await this.usersModel.insertMany(users);
-      console.log(`CREATE ${users.length} USER SUCCESSFULLY!!`);
-    } catch (error) {
-      console.error('Error seeding users:', error);
-    }
-  }
-
-  private async seedLessons() {
-    try {
-      await this.lessonModel.deleteMany();
-      const lessons = lessonToSeed.map(lessonData => new this.lessonModel(lessonData));
-      await this.lessonModel.insertMany(lessons);
-      console.log(`CREATE ${lessons.length} LESSON SUCCESSFULLY!!`);
+      console.log('articles', articles);
+      await this.ArticleModel.deleteMany();
+      for (const article of articles) {
+        await this.ArticleModel.create(article);
+      }
     } catch (error) {
       console.error('Error seeding lessons:', error);
     }
+  }
+
+
+  @Command({ command: 'data:import', describe: 'Seeding data' })
+  async initilize() {
+    await this.seedArticles();
   }
 }

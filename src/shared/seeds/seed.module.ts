@@ -1,25 +1,26 @@
-// import { Module } from '@nestjs/common';
-// import { CommandModule } from 'nestjs-command';
-// import { SeedService } from './services/seed.service';
-// import { MongooseModule } from '@nestjs/mongoose';
-// import { User, UserSchema } from '~/users/schema/users.schema';
-// import { Lesson, LessonSchema } from '~/lessons/schema/lesson.schema';
+import { Module } from '@nestjs/common';
+import { CommandModule } from 'nestjs-command';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Article, ArticleSchema } from '~/articles/schema/article.schema';
+import { SeedService } from '~/shared/seeds/seed.service';
+import { User, UserSchema } from '~/users/schema/user.schema';
 
-// @Module({
-//   imports: [
-//     MongooseModule.forFeature([
-//       {
-//         name: User.name,
-//         schema: UserSchema,
-//       },
-//       {
-//         name: Lesson.name,
-//         schema: LessonSchema,
-//       },
-//     ]),
-//     CommandModule],
-//   providers: [
-//     SeedService,
-//   ],
-// })
-// export class SeedsModule { }
+@Module({
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Article.name,
+        schema: ArticleSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
+      }
+    ]),
+    CommandModule
+  ],
+  providers: [
+    SeedService,
+  ],
+})
+export class SeedsModule { }

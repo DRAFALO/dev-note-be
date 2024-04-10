@@ -1,3 +1,9 @@
+## How to run this project 
+Seed data using `yarn seed` then run project with `yarn dev` and access [http://localhost:3000/api/v1](http://localhost:3000/api/v1) to find swagger page
+
+
+## Project structures
+
 ```shell
 |-- /src
   |    |-- /modules

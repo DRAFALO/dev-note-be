@@ -11,7 +11,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     ArticlesModule,
     UsersModule,
-    AuthModule,
+    // AuthModule,
     CommentModule,
     TagsModule],
   controllers: [],
