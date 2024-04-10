@@ -1,33 +1,21 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MongooseModuleOptions } from "@nestjs/mongoose";
-// import { SeedsModule } from '~/shared/seeds/seed.module';
+import { SeedsModule } from '~/shared/seeds/seed.module';
 import { LoggerMiddleware } from './loggers/logger.middleware';
-
-export const connectDBFactory = (
-  configService: ConfigService
-): MongooseModuleOptions => {
-  const MONGODB_URL = configService.get<string>('MONGODB_URL');
-  console.log(MONGODB_URL);
-  return {
-    uri: MONGODB_URL,
-  };
-};
-
-
+import { connectDBFactory } from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env'],
+      envFilePath: ['.env.local'],
     }),
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: connectDBFactory,
     }),
-    // SeedsModule
+    SeedsModule
   ],
   exports: [ConfigModule, MongooseModule],
 })
