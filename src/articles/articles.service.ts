@@ -12,7 +12,6 @@ export class ArticlesService {
     @InjectModel(Article.name) private articleModel: Model<ArticleDocument>
   ) { }
 
-
   create(createArticleDto: CreateArticleDto){
 
     return 'This action adds a new article';
