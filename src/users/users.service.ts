@@ -1,30 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '~/users/schema/user.schema';
+import { User, UserDocument, UserRole } from '~/users/schema/user.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [
-    {
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      username: 'chris',
-      password: 'secret',
-    }
-  ];
+  
 
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) { }
 
-  async create(username: string, password: string): Promise<User> {
-    return this.userModel.create({
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { username, password,email } = createUserDto;
+    const newUser:User = {
       username,
       password,
-    });
+      role: UserRole.User,
+      email: email,
+      firstName: '',
+      lastName: '',
+      birth: undefined,
+      avatar: '',
+      createdAt: undefined,
+      updatedAt: undefined,
+      follower: undefined,
+      following: undefined,
+      social_link: '',
+      location: undefined,
+      skills: [],
+      tag_following: ''
+    }
+    const checkUserExist = await this.findByEmail(email);
+    if (checkUserExist) {
+      throw new BadRequestException('User already exist');
+    }
+    const createdUser  = await this.userModel.create(newUser);
+    const userResponse: User = createdUser.toObject();
+    delete userResponse.password;
+    return userResponse;
   }
 
   async getUser(query: object): Promise<User> {
@@ -35,17 +49,20 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  async findByEmail(email: string) {
-    const user = this.users.find(user => user.username === email);
+  async findByEmail(email: string): Promise<User> {
+    const user = this.userModel.findOne({email})
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+   const _id = new Object(id);
+    const updatedUser = await this.userModel.findOneAndUpdate({_id}, updateUserDto,{ new: true })
+    return updatedUser;
   }
 
-  async remove(id: number) {
-    return this.userModel.deleteOne().where({ id }).exec();
+  async remove(id: string) {
+    const _id = new Object(id);
+    return this.userModel.deleteOne().where({ _id }).exec();
   }
 
 }
