@@ -4,26 +4,24 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '~/auth/guards/auth.guard';
-import { User } from '~/users/schema/user.schema';
-import * as bcrypt from 'bcrypt';
-import { UsersService } from '~/users/users.service';
+
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
 
-    // constructor(private readonly authService: AuthService,private usersService:UsersService) { }
+    constructor(private readonly authService: AuthService) { }
 
-    // @HttpCode(HttpStatus.OK)
-    // @Post('login')
-    // signIn(@Body() signInDto: Record<string, any>) {
-    //     return this.authService.signIn(signInDto.username, signInDto.password);
-    // }
+    @HttpCode(HttpStatus.OK)
+    @Post('login')
+    signIn(@Body() signInDto: Record<string, any>) {
+        return this.authService.signIn(signInDto.username, signInDto.password);
+    }
 
-    // @UseGuards(AuthGuard)
-    // @Get('profile')
-    // getProfile(@Request() req) {
-    //     return req.user;
-    // }
+    @UseGuards(AuthGuard)
+    @Get('profile')
+    getProfile(@Request() req) {
+        return req.user;
+    }
 
     //   @Post('/signup')
     //   async createUser(
@@ -32,7 +30,7 @@ export class AuthController {
     //   ): Promise<User> {
     //       const saltOrRounds = 10;
     //       const hashedPassword = await bcrypt.hash(password, saltOrRounds);
-    //       const result = await this.usersService.create(
+    //       const result = await this.usersService.createUser(
     //           username,
     //           hashedPassword,
     //       );
