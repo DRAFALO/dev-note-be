@@ -17,7 +17,6 @@ export class UsersController {
 
   @Get()
   findByEmail(@Query('email') email: string): Promise<CreateUserDto>{
-   
     return this.usersService.findByEmail(email);
   } 
 
