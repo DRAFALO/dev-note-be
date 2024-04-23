@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
 import { CommandModule } from 'nestjs-command';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SeedController } from './seed.controller';
 import { Article, ArticleSchema } from '~/articles/schema/article.schema';
 import { SeedService } from '~/shared/seeds/seed.service';
 import { User, UserSchema } from '~/users/schema/user.schema';
+import { Tag, TagSchema } from '~/tags/schema/tag.schema';
 
 @Module({
   imports: [
@@ -15,12 +17,15 @@ import { User, UserSchema } from '~/users/schema/user.schema';
       {
         name: User.name,
         schema: UserSchema,
-      }
+      },
+      {
+        name: Tag.name,
+        schema: TagSchema,
+      },
     ]),
-    CommandModule
+    CommandModule,
   ],
-  providers: [
-    SeedService,
-  ],
+  providers: [SeedService],
+  controllers: [SeedController],
 })
-export class SeedsModule { }
+export class SeedsModule {}

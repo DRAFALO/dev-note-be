@@ -1,9 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { Command } from 'nestjs-command';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { RandomAdmin } from './fakerAdmin';
+import { RandomArticles } from './fakerArticles';
+import { RandomTags } from './fakerTags';
+import { RandomUser } from './fakerUser';
 import { Article, ArticleDocument } from '~/articles/schema/article.schema';
-import { articles } from '~/shared/seeds/data';
+import { User, UserDocument } from '~/users/schema/user.schema';
+import { Tag, TagDocument } from '~/tags/schema/tag.schema';
 
 @Injectable()
 export class SeedService {
@@ -11,23 +16,13 @@ export class SeedService {
 
   constructor(
     @InjectModel(Article.name) private ArticleModel: Model<ArticleDocument>,
-  ) { }
-
-  // private seedDataAndLog(name: string, length: number, callback: () => Promise<void>) {
-  //   try { code nguu 
-  //     callback();
-  //     this.logger.log(`Seeding ${length} ${name} success`);
-  //   } catch (error) {
-  //     this.logger.error(`Error seeding ${name}: ${error.message}`, error.stack);
-  //     throw new Error(`Error seeding ${name}: ${error.message}`);
-  //   }
-  // }
+    @InjectModel(User.name) private UserModel: Model<UserDocument>,
+    @InjectModel(Tag.name) private TagModel: Model<TagDocument>,
+  ) {}
 
   private async seedArticles() {
     try {
-      console.log('articles', articles);
-      await this.ArticleModel.deleteMany();
-      for (const article of articles) {
+      for (const article of RandomArticles) {
         await this.ArticleModel.create(article);
       }
     } catch (error) {
@@ -35,9 +30,53 @@ export class SeedService {
     }
   }
 
+  private async seedUser() {
+    {
+      try {
+        for (const user of RandomUser) {
+          await this.UserModel.create(user);
+        }
+      } catch (error) {
+        console.error('Error seeding lessons:', error);
+      }
+    }
+  }
+
+  private async seedAdmin() {
+    {
+      try {
+        for (const admin of RandomAdmin) {
+          await this.UserModel.create(admin);
+        }
+      } catch (error) {
+        console.error('Error seeding lessons:', error);
+      }
+    }
+  }
+  private async seedTags() {
+    {
+      try {
+        for (const tag of RandomTags) {
+          await this.TagModel.create(tag);
+        }
+      } catch (error) {
+        console.error('Error seeding lessons:', error);
+      }
+    }
+  }
+
+  private async removeModels() {
+    await this.ArticleModel.deleteMany();
+    await this.TagModel.deleteMany();
+    await this.UserModel.deleteMany();
+  }
 
   @Command({ command: 'data:import', describe: 'Seeding data' })
-  async initilize() {
+  async initialize() {
+    await this.removeModels();
+    await this.seedUser();
+    await this.seedAdmin();
+    await this.seedTags();
     await this.seedArticles();
   }
 }

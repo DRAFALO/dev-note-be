@@ -13,7 +13,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { username, password, email } = createUserDto;
-   
+
     const newUser = new User();
     newUser.username = username;
     newUser.password = password;
@@ -24,8 +24,8 @@ export class UsersService {
     newUser.lastName = '';
     newUser.birth = undefined;
     newUser.avatar = '';
-    newUser.createdAt = undefined;
-    newUser.updatedAt = undefined;
+    newUser.createAt = new Date(),
+    newUser.updateAt = new Date(),
     newUser.follower = undefined;
     newUser.following = undefined;
     newUser.social_link = '';
@@ -49,7 +49,6 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-
     return this.userModel.find().exec();
   }
 
@@ -68,5 +67,4 @@ export class UsersService {
     const _id = new Object(id);
     return this.userModel.deleteOne().where({ _id }).exec();
   }
-
 }
