@@ -11,12 +11,14 @@ export class User {
   @Prop({ required: true })
   username: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   password: string;
 
-  @Prop({ required: true })
-  @Prop()
+  @Prop({ required: true , unique:true})
   email: string;
+
+  @Prop({ default: false, required: false })
+  isRegisteredWithGoogle: boolean;
 
   @Prop()
   firstName: string;
