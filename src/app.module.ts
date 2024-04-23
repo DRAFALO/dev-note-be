@@ -5,6 +5,10 @@ import { CommentModule } from './comment/comment.module';
 import { SharedModule } from './shared/shared.module';
 import { TagsModule } from './tags/tags.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from '~/auth/auth.module';
+import { RolesGuard } from '~/auth/guards/role.guard';
+import { APP_GUARD } from '@nestjs/core';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,10 +18,15 @@ import { UsersModule } from './users/users.module';
     SharedModule,
     ArticlesModule,
     UsersModule,
-    // AuthModule,
+    AuthModule,
     CommentModule,
     TagsModule],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule { }
