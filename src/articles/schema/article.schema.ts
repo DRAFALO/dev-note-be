@@ -33,14 +33,14 @@ export class Article {
   author: string;
 
   @Prop({ required: true })
-  createAt: string;
+  createAt: Date;
 
   @Prop({ required: true })
-  updateAt: string;
+  updateAt: Date;
 
   //need update when have a tags 
   @Prop({ required: true })
-  tag: number[];
+  tag: string[];
 
   @Prop({ required: true })
   watchLater: boolean;

@@ -1,11 +1,11 @@
-import { DocumentBuilder, SwaggerCustomOptions } from "@nestjs/swagger";
+import { DocumentBuilder, SwaggerCustomOptions } from '@nestjs/swagger';
 
-export const swaggerPath = "api/v1";
+export const swaggerPath = 'api/v1';
 
 export const swaggerDocumentOptions = new DocumentBuilder()
-  .setTitle("Devnote API Documentation")
+  .setTitle('Dev-note API Documentation')
   .setDescription(
-    'Here is the api for devnote project \n\n## Congratulations! Your service resource is ready.\n  \nPlease note that all endpoints are secured with JWT Bearer authentication.\nBy default, your service resource comes with one user with the username "admin" and password "admin".\nLearn more in [our docs](https://docs.amplication.com)'
+    'Here is the api for dev-note project \n\n## Congratulations! Your service resource is ready.\n',
   )
   .addBearerAuth()
   .build();
@@ -16,5 +16,5 @@ export const swaggerSetupOptions: SwaggerCustomOptions = {
   },
   // customCssUrl: "../swagger/swagger.css",
   // customfavIcon: "../swagger/favicon.png",
-  customSiteTitle: "Devnote API Documentation",
+  customSiteTitle: 'Devnote API Documentation',
 };

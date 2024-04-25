@@ -3,9 +3,12 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 export enum UserRole {
+  Normal = 'Normal',
   Admin = 'Admin',
-  User = 'User',
+  Supporter = 'Supporter',
+  User = "User",
 }
+
 @Schema()
 export class User {
   @Prop({ required: true })
@@ -33,10 +36,10 @@ export class User {
   avatar: string;
 
   @Prop({ default: Date.now })
-  createdAt: Date;
+  createAt: Date;
 
   @Prop({ default: Date.now })
-  updatedAt: Date;
+  updateAt: Date;
 
   @Prop({ type: String, enum: UserRole })
   role: UserRole;
@@ -61,4 +64,3 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
