@@ -4,10 +4,11 @@ import { User, UserRole } from '~/users/schema/user.schema';
 export function createRandomUser(): User {
   return {
     username: faker.internet.userName(),
-    password: faker.image.avatar(),
+    password: '$2b$10$PhF.ueE6lpbsCg3eIHU9r.HlqyhWBWvDFpPobB2iir59xNiGjSdSS',
     email: faker.internet.email(),
     birth: faker.date.recent(),
     avatar: faker.image.avatar(),
+    isRegisteredWithGoogle: faker.datatype.boolean(),
     follower: {},
     following: {},
     firstName: faker.internet.userName(),

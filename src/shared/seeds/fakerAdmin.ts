@@ -7,6 +7,7 @@ export function createRandomAdmin(): User {
     password: faker.image.avatar(),
     email: faker.internet.email(),
     birth: faker.date.recent(),
+    isRegisteredWithGoogle: faker.datatype.boolean(),
     avatar: faker.image.avatar(),
     follower: {},
     following: {},

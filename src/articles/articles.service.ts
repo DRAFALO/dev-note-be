@@ -12,15 +12,15 @@ export class ArticlesService {
     @InjectModel(Article.name) private articleModel: Model<ArticleDocument>
   ) { }
 
-  async create(createArticleDto: CreateArticleDto):Promise<Article>{
+  async create(createArticleDto: CreateArticleDto): Promise<Article> {
     const newArticle = new this.articleModel(createArticleDto);
-    newArticle.createAt = new Date().toISOString();
-    newArticle.updateAt = new Date().toISOString();
+    newArticle.createAt = new Date();
+    newArticle.updateAt = new Date();
     console.log(newArticle);
     return newArticle.save();
   }
 
-  async findAll():Promise<Article[]> {
+  async findAll(): Promise<Article[]> {
     const article = await this.articleModel.find({});
     return article;
   }
@@ -28,13 +28,13 @@ export class ArticlesService {
 
   async findOne(id: string): Promise<Article> {
     const _id = new Object(id);
-    const article = this.articleModel.findOne({_id});
+    const article = this.articleModel.findOne({ _id });
     return article;
   }
- 
-  async update(id: string, updateArticleDto: UpdateArticleDto):Promise<Article> {
+
+  async update(id: string, updateArticleDto: UpdateArticleDto): Promise<Article> {
     const _id = new Object(id);
-    const updatedArticle = await this.articleModel.findOneAndUpdate({_id}, updateArticleDto,{ new: true })
+    const updatedArticle = await this.articleModel.findOneAndUpdate({ _id }, updateArticleDto, { new: true })
     return updatedArticle;
   }
 
