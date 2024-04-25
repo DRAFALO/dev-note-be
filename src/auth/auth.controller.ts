@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
 @Controller('auth')
+@ApiBearerAuth()
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
