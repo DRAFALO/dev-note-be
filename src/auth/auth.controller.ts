@@ -16,6 +16,7 @@ import { UserRole } from '~/users/schema/user.schema';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
+@ApiBearerAuth()
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }

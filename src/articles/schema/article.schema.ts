@@ -8,6 +8,7 @@ export enum TypeArticle {
   Long = 'Long',
   Short = 'Short',
   Quote = 'Quote',
+  TIL = 'TIL',
 }
 
 @Schema({ timestamps: true })
@@ -22,6 +23,9 @@ export class Article {
   @Prop({ required: true })
   content: string;
 
+  @Prop({ type: String, enum: TypeArticle, required: true })
+  type: TypeArticle;
+
   @Prop({ required: true })
   emotion: string[];
 
@@ -34,6 +38,7 @@ export class Article {
   @Prop({ required: true })
   updateAt: string;
 
+  //need update when have a tags 
   @Prop({ required: true })
   tag: number[];
 
@@ -41,7 +46,7 @@ export class Article {
   watchLater: boolean;
 
   @Prop({ required: true })
-  @ApiProperty({ enum: ['Long', 'Short', 'Quote'] })
+  @ApiProperty({ enum: ['Long', 'Short', 'Quote','TIL'] })
   role: TypeArticle;
 }
 
