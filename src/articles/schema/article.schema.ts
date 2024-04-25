@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 
@@ -45,9 +44,6 @@ export class Article {
   @Prop({ required: true })
   watchLater: boolean;
 
-  @Prop({ required: true })
-  @ApiProperty({ enum: ['Long', 'Short', 'Quote','TIL'] })
-  role: TypeArticle;
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article);
